@@ -66,7 +66,7 @@ while gameloop:
         if sprite_interval >= 5:
             sprite_interval = 5
 
-    screen.blit(current_sprite, (50, 169))  # Draw the current sprite
+    screen.blit(current_sprite, (50, 169))
 
     clock.tick(30)
     pygame.display.update()
