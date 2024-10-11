@@ -32,11 +32,12 @@ while gameloop:
             pygame.quit()
             sys.exit()
 
-    text1 = font.render(f'Throttle: {-round(5*sprite_interval-25)}%', True, color)
+    throttle_percent = -round(5*sprite_interval-25)
+    text1 = font.render(f'Throttle: {throttle_percent}%', True, color)
     screen.blit(text1, (8, 8))
    
-    pos = pygame.mouse.get_pos()
-    print(pos)
+    y_mouse_pos = round(pygame.mouse.get_pos()[1]/2.16-100)
+    print(y_mouse_pos)
 
     # Alternate sprites based on the timer
     if sprite_interval >= 5:
@@ -65,7 +66,7 @@ while gameloop:
         if sprite_interval >= 5:
             sprite_interval = 5
 
-    screen.blit(current_sprite, (50, 180))  # Draw the current sprite
+    screen.blit(current_sprite, (50, 169))  # Draw the current sprite
 
     clock.tick(30)
     pygame.display.update()
