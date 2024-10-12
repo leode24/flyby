@@ -37,11 +37,9 @@ while gameloop:
     throttle_percent = -round(5*sprite_interval-25)
     text1 = font.render(f'Throttle: {throttle_percent}%', True, color)
     screen.blit(text1, (8, 8))
-   
-    # Get the Y-axis position of the mouse, and make that inbetween -100 and 100
-    rotation_speed = (pygame.mouse.get_pos()[1]/50)-(216/50)
-    # print(rotation_speed)
 
+    # Rotate sprite based on mouse position and speed
+    rotation_speed = (pygame.mouse.get_pos()[1]/50)-(216/50)
     rotation_angle += rotation_speed
     rotated_sprite = pygame.transform.rotate(current_sprite, rotation_angle)
     rotation_angle = rotation_angle % 360
