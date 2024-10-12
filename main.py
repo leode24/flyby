@@ -36,8 +36,9 @@ while gameloop:
     text1 = font.render(f'Throttle: {throttle_percent}%', True, color)
     screen.blit(text1, (8, 8))
    
+    # Get the Y-axis position of the mouse, and make that inbetween -100 and 100
     y_mouse_pos = round(pygame.mouse.get_pos()[1]/2.16-100)
-    print(y_mouse_pos)
+    # print(y_mouse_pos)
 
     # Alternate sprites based on the timer
     if sprite_interval >= 5:
