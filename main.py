@@ -5,6 +5,8 @@ from pygame.locals import QUIT
 
 WIDTH, HEIGHT = 768, 432
 color = (0, 0, 0)
+rotation_speed = 0
+rotation_angle = 0
 
 pygame.init()
 pygame.font.init()
@@ -37,8 +39,13 @@ while gameloop:
     screen.blit(text1, (8, 8))
    
     # Get the Y-axis position of the mouse, and make that inbetween -100 and 100
-    y_mouse_pos = round(pygame.mouse.get_pos()[1]/2.16-100)
-    # print(y_mouse_pos)
+    rotation_speed = (pygame.mouse.get_pos()[1]/50)-(216/50)
+    # print(rotation_speed)
+
+    rotation_angle += rotation_speed
+    rotated_sprite = pygame.transform.rotate(current_sprite, rotation_angle)
+    rotation_angle = rotation_angle % 360
+    rotated_sprite_rect = rotated_sprite.get_rect(center=(167, 222))
 
     # Alternate sprites based on the timer
     if sprite_interval >= 5:
@@ -67,7 +74,7 @@ while gameloop:
         if sprite_interval >= 5:
             sprite_interval = 5
 
-    screen.blit(current_sprite, (50, 169)) # Draw current sprite
+    screen.blit(rotated_sprite, rotated_sprite_rect) # Draw current sprite
 
     clock.tick(30)
     pygame.display.update()
