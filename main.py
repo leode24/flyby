@@ -59,7 +59,7 @@ while gameloop:
         sprite_timer = 0  # Reset the timer
 
     keys = pygame.key.get_pressed()
-    if keys[pygame.K_ESCAPE]:
+    if keys[pygame.K_ESCAPE] or keys[pygame.K_q]:
         gameloop = False
    
     if keys[pygame.K_UP] or keys[pygame.K_w]:
