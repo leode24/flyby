@@ -5,19 +5,27 @@ from pygame.locals import QUIT
 
 WIDTH, HEIGHT = 768, 432
 color = (0, 0, 0)
+bg_color = (135, 206, 250)
 rotation_speed = 0
 rotation_angle = 6.5
+gravity = 1
+y_velocity = 0
+y_pos = 340 - 200
 
 pygame.init()
 pygame.font.init()
 clock = pygame.time.Clock()
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
-screen.fill((135, 206, 250))
+screen.fill(bg_color)
 sprite1 = pygame.image.load("plane1.png").convert_alpha()
 sprite2 = pygame.image.load("plane2.png").convert_alpha()
 terrain = pygame.image.load("terrain_1.png").convert_alpha()
 sprite1 = pygame.transform.smoothscale(sprite1, (939/4, 424/4))
 sprite2 = pygame.transform.smoothscale(sprite2, (939/4, 424/4))
+
+# Get masks for objects
+sprite_mask = pygame.mask.from_surface(sprite1)
+terrain_mask = pygame.mask.from_surface(terrain)
 
 font = pygame.font.SysFont('corbel', 35)
 current_sprite = sprite1
@@ -46,7 +54,7 @@ while gameloop:
     rotation_angle += rotation_speed
     rotated_sprite = pygame.transform.rotate(current_sprite, rotation_angle)
     rotation_angle = rotation_angle % 360
-    rotated_sprite_rect = rotated_sprite.get_rect(center=(167, 340))
+    rotated_sprite_rect = rotated_sprite.get_rect(center=(167, y_pos))
 
     # Alternate sprites based on the timer
     if sprite_interval >= 5:
@@ -75,7 +83,13 @@ while gameloop:
         if sprite_interval >= 5:
             sprite_interval = 5
 
+    if terrain_mask.overlap(sprite_mask, (167, 340)):
+        bg_color = (0, 0, 225)
+
     screen.blit(rotated_sprite, rotated_sprite_rect) # Draw current sprite
+ 
+    y_velocity += gravity
+    y_pos += y_velocity
 
     clock.tick(30)
     pygame.display.update()
