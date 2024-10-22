@@ -8,7 +8,7 @@ color = (0, 0, 0)
 bg_color = (135, 206, 250)
 rotation_speed = 0
 rotation_angle = 6.5
-gravity = 1
+gravity = 0
 y_velocity = 0
 y_pos = 340 - 200
 
@@ -20,8 +20,12 @@ screen.fill(bg_color)
 sprite1 = pygame.image.load("plane1.png").convert_alpha()
 sprite2 = pygame.image.load("plane2.png").convert_alpha()
 terrain = pygame.image.load("terrain_1.png").convert_alpha()
+mouse_image = pygame.image.load("mouse.png").convert_alpha()
 sprite1 = pygame.transform.smoothscale(sprite1, (939/4, 424/4))
 sprite2 = pygame.transform.smoothscale(sprite2, (939/4, 424/4))
+mouse_image = pygame.transform.smoothscale(mouse_image, (20, 20))
+
+pygame.mouse.set_visible(False)
 
 # Get masks for objects
 sprite_mask = pygame.mask.from_surface(sprite1)
@@ -87,6 +91,8 @@ while gameloop:
         bg_color = (0, 0, 225)
 
     screen.blit(rotated_sprite, rotated_sprite_rect) # Draw current sprite
+    mouse_pos = pygame.mouse.get_pos()
+    screen.blit(mouse_image, mouse_pos)
  
     y_velocity += gravity
     y_pos += y_velocity
