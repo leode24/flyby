@@ -6,7 +6,7 @@ from pygame.locals import QUIT
 WIDTH, HEIGHT = 768, 432
 color = (0, 0, 0)
 rotation_speed = 0
-rotation_angle = 0
+rotation_angle = 6.5
 
 pygame.init()
 pygame.font.init()
@@ -15,6 +15,7 @@ screen = pygame.display.set_mode((WIDTH, HEIGHT))
 screen.fill((135, 206, 250))
 sprite1 = pygame.image.load("plane1.png").convert_alpha()
 sprite2 = pygame.image.load("plane2.png").convert_alpha()
+terrain = pygame.image.load("terrain_1.png").convert_alpha()
 sprite1 = pygame.transform.smoothscale(sprite1, (939/4, 424/4))
 sprite2 = pygame.transform.smoothscale(sprite2, (939/4, 424/4))
 
@@ -34,16 +35,18 @@ while gameloop:
             pygame.quit()
             sys.exit()
 
+    screen.blit(terrain, (0, 0))
+
     throttle_percent = -round(5*sprite_interval-25)
     text1 = font.render(f'Throttle: {throttle_percent}%', True, color)
     screen.blit(text1, (8, 8))
 
-    # Rotate sprite based on mouse position and speed
+    # # Rotate sprite based on mouse position and speed
     rotation_speed = (pygame.mouse.get_pos()[1]/50)-(216/50)
     rotation_angle += rotation_speed
     rotated_sprite = pygame.transform.rotate(current_sprite, rotation_angle)
     rotation_angle = rotation_angle % 360
-    rotated_sprite_rect = rotated_sprite.get_rect(center=(167, 222))
+    rotated_sprite_rect = rotated_sprite.get_rect(center=(167, 340))
 
     # Alternate sprites based on the timer
     if sprite_interval >= 5:
