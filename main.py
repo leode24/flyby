@@ -10,7 +10,7 @@ rotation_speed = 0
 rotation_angle = 6.5
 gravity = 0
 y_velocity = 0
-y_pos = 340 - 200
+y_pos = 340
 
 pygame.init()
 pygame.font.init()
