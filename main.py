@@ -8,7 +8,7 @@ color = (0, 0, 0)
 bg_color = (135, 206, 250)
 rotation_speed = 0
 rotation_angle = 6.5
-gravity = 0
+gravity = 1
 y_velocity = 0
 y_pos = 340
 
