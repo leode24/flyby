@@ -4,13 +4,15 @@ import pygame, sys
 from pygame.locals import QUIT
 
 WIDTH, HEIGHT = 768, 432
-color = (0, 0, 0)
+color = (51, 79, 92)
 bg_color = (135, 206, 250)
 rotation_speed = 0
 rotation_angle = 6.5
 gravity = 1
 y_velocity = 0
-y_pos = 340
+x_velocity = 0
+y_pos = 340-150
+x_pos = 0
 
 pygame.init()
 pygame.font.init()
@@ -47,7 +49,7 @@ while gameloop:
             pygame.quit()
             sys.exit()
 
-    screen.blit(terrain, (0, 0))
+    screen.blit(terrain, (x_pos, 0))
 
     throttle_percent = -round(5*sprite_interval-25)
     text1 = font.render(f'Throttle: {throttle_percent}%', True, color)
@@ -55,7 +57,7 @@ while gameloop:
 
     # # Rotate sprite based on mouse position and speed
     rotation_speed = (pygame.mouse.get_pos()[1]/50)-(216/50)
-    rotation_angle += rotation_speed
+    # rotation_angle += rotation_speed
     rotated_sprite = pygame.transform.rotate(current_sprite, rotation_angle)
     rotation_angle = rotation_angle % 360
     rotated_sprite_rect = rotated_sprite.get_rect(center=(167, y_pos))
@@ -87,8 +89,9 @@ while gameloop:
         if sprite_interval >= 5:
             sprite_interval = 5
 
-    if terrain_mask.overlap(sprite_mask, (167, 340)):
-        bg_color = (0, 0, 225)
+    if terrain_mask.overlap(sprite_mask, (x_pos, y_pos - 48)):
+        y_velocity = 0
+        gravity = 0
 
     screen.blit(rotated_sprite, rotated_sprite_rect) # Draw current sprite
     mouse_pos = pygame.mouse.get_pos()
@@ -96,6 +99,8 @@ while gameloop:
  
     y_velocity += gravity
     y_pos += y_velocity
+    x_velocity += throttle_percent
+    x_pos -= x_velocity
 
     clock.tick(30)
     pygame.display.update()
