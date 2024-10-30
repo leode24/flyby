@@ -11,8 +11,9 @@ rotation_angle = 6.5
 gravity = 1
 y_velocity = 0
 x_velocity = 0
-y_pos = 340-30
+y_pos = 340
 x_pos = 0
+screen_scroll = 0
 
 pygame.init()
 pygame.font.init()
@@ -50,7 +51,7 @@ while gameloop:
             pygame.quit()
             sys.exit()
 
-    screen.blit(terrain, (x_pos, 0))
+    screen.blit(terrain, (screen_scroll, 0))
 
     throttle_percent = -round(5 * sprite_interval - 25)
     text1 = font.render(f'Throttle: {throttle_percent}%', True, text_color)
@@ -97,9 +98,10 @@ while gameloop:
         if x_velocity < 1:
             x_velocity = 0
 
-    if terrain_mask.overlap(sprite_mask, (x_pos, y_pos - 57)):
+    if terrain_mask.overlap(sprite_mask, (x_pos - screen_scroll, y_pos - 57)):
         y_velocity = 0
         gravity = 0
+        rotation_angle = 6.5
     else:
         gravity = 1
 
@@ -110,7 +112,7 @@ while gameloop:
     y_velocity += gravity
     y_pos += y_velocity
     x_velocity += throttle_percent/100
-    x_pos -= x_velocity
+    screen_scroll -= x_velocity
 
     # Parameters
     if x_velocity > 15:
@@ -123,8 +125,6 @@ while gameloop:
         
     if x_velocity < 0:
         x_velocity = 0
-
-    print(x_velocity)
 
     clock.tick(30)
     pygame.display.update()
