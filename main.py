@@ -4,7 +4,7 @@ import pygame, sys
 from pygame.locals import QUIT
 
 WIDTH, HEIGHT = 768, 432
-color = (0, 0, 0)
+text_color = (0, 0, 0)
 bg_color = (135, 206, 250)
 rotation_speed = 0
 rotation_angle = 6.5
@@ -53,7 +53,7 @@ while gameloop:
     screen.blit(terrain, (x_pos, 0))
 
     throttle_percent = -round(5 * sprite_interval - 25)
-    text1 = font.render(f'Throttle: {throttle_percent}%', True, color)
+    text1 = font.render(f'Throttle: {throttle_percent}%', True, text_color)
     screen.blit(text1, (8, 8))
 
     # # Rotate sprite based on mouse position and speed
