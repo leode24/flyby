@@ -112,7 +112,7 @@ while gameloop:
     x_velocity += throttle_percent/100
     x_pos -= x_velocity
 
-# Parameters
+    # Parameters
     if x_velocity > 15:
         x_velocity = 15
 
