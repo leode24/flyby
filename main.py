@@ -4,14 +4,14 @@ import pygame, sys
 from pygame.locals import QUIT
 
 WIDTH, HEIGHT = 768, 432
-color = (51, 79, 92)
+color = (0, 0, 0)
 bg_color = (135, 206, 250)
 rotation_speed = 0
 rotation_angle = 6.5
 gravity = 1
 y_velocity = 0
 x_velocity = 0
-y_pos = 340-150
+y_pos = 340-30
 x_pos = 0
 
 pygame.init()
@@ -40,6 +40,7 @@ sprite_interval = 5  # Frames to wait before switching
 
 pygame.display.set_caption('Flyby')
 
+# Gameloop
 gameloop = True
 while gameloop:
     screen.fill((135, 206, 250))  # Fill screen with background color
@@ -51,16 +52,16 @@ while gameloop:
 
     screen.blit(terrain, (x_pos, 0))
 
-    throttle_percent = -round(5*sprite_interval-25)
+    throttle_percent = -round(5 * sprite_interval - 25)
     text1 = font.render(f'Throttle: {throttle_percent}%', True, color)
     screen.blit(text1, (8, 8))
 
     # # Rotate sprite based on mouse position and speed
     rotation_speed = (pygame.mouse.get_pos()[1]/50)-(216/50)
-    # rotation_angle += rotation_speed
+    rotation_angle += rotation_speed
     rotated_sprite = pygame.transform.rotate(current_sprite, rotation_angle)
     rotation_angle = rotation_angle % 360
-    rotated_sprite_rect = rotated_sprite.get_rect(center=(167, y_pos))
+    rotated_sprite_rect = rotated_sprite.get_rect(center = (167, y_pos))
 
     # Alternate sprites based on the timer
     if sprite_interval >= 5:
@@ -89,9 +90,18 @@ while gameloop:
         if sprite_interval >= 5:
             sprite_interval = 5
 
-    if terrain_mask.overlap(sprite_mask, (x_pos, y_pos - 48)):
+    if keys[pygame.K_b]:
+        if x_velocity > 0:
+            x_velocity -= 2
+
+        if x_velocity < 1:
+            x_velocity = 0
+
+    if terrain_mask.overlap(sprite_mask, (x_pos, y_pos - 57)):
         y_velocity = 0
         gravity = 0
+    else:
+        gravity = 1
 
     screen.blit(rotated_sprite, rotated_sprite_rect) # Draw current sprite
     mouse_pos = pygame.mouse.get_pos()
@@ -99,8 +109,22 @@ while gameloop:
  
     y_velocity += gravity
     y_pos += y_velocity
-    x_velocity += throttle_percent
+    x_velocity += throttle_percent/100
     x_pos -= x_velocity
+
+# Parameters
+    if x_velocity > 15:
+        x_velocity = 15
+
+    if x_velocity > 0:
+        x_velocity -= 1/10
+    else:
+        x_velocity = 0
+        
+    if x_velocity < 0:
+        x_velocity = 0
+
+    print(x_velocity)
 
     clock.tick(30)
     pygame.display.update()
